@@ -1,25 +1,26 @@
-import React, {useState} from "react";  
+import React, {useState, useRef} from "react";  
 import classes from './AddItem.module.css';
 import Card from '../layout/Card'
 import axios from "axios";
 
-const url = 'https://task-3a5a5-default-rtdb.firebaseio.com/';
-
+//https://task-3a5a5-default-rtdb.firebaseio.com/
 //this can be class component
 const AddItem = (props) => {
-  const [todoItem,setTodoItem] = useState('');
 
+  const item = useRef();
   const addTodoItemHandler = (e) => {
-    
-      addToDoList();
-     e.preventDefault();
+    const value ={ item: item.current.value};
+     
+    axios.post('https://todoapp-83079-default-rtdb.firebaseio.com/posts.json', value).then(
+      res => {
+      
+      }
+    )
+    e.preventDefault();
   }
 
-  const addToDoList =  () => {
-     axios.post(url, {todoItem}).then(response => {
-       console.log(response);
-     })
-  };
+
+
    return ( 
     <Card> 
       <div className="header">    
@@ -27,13 +28,12 @@ const AddItem = (props) => {
       </div>  
 
       <div className={classes.table}>
-      
+        <form onSubmit={addTodoItemHandler}>
           <input type="text"  
-            onChange={(e) => setTodoItem(e.target.value)} 
-            value={todoItem}/>  
+             ref={item}/>  
           <button className="ui button"
-           type="submit" onClick={addTodoItemHandler} >   Submit  </button>
-
+           type="submit" >   Submit  </button>
+         </form>
       </div>
 
     </Card>
