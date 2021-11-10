@@ -1,16 +1,25 @@
 import React, {useState} from "react";  
 import classes from './AddItem.module.css';
 import Card from '../layout/Card'
+import axios from "axios";
 
+const url = 'https://task-3a5a5-default-rtdb.firebaseio.com/';
+
+//this can be class component
 const AddItem = (props) => {
   const [todoItem,setTodoItem] = useState('');
 
   const addTodoItemHandler = (e) => {
-     console.log(todoItem); 
-     props.addItemList(todoItem);
+    
+      addToDoList();
      e.preventDefault();
   }
 
+  const addToDoList =  () => {
+     axios.post(url, {todoItem}).then(response => {
+       console.log(response);
+     })
+  };
    return ( 
     <Card> 
       <div className="header">    
